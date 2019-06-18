@@ -23,17 +23,17 @@ public class App {
         server.createContext("/users/all", (exchange -> {
             try {
                 if ("GET".equals(exchange.getRequestMethod())) {
-                    
+
                     /*
                     Json file to Java Object. Also we use the [] Array because 
                     Jackson expects an object not an array, as it is given in 
                     our json file:
-                    */
+                     */
                     User[] user = mapper.readValue(new File("/Volumes/flobmusic/_archives/code/Java/JavaExamples/indie/noFrameRestAPI/user.json"), User[].class);
-                    
+
                     //Pretty print user from json file:
                     String prettyUser = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(user);
-                    
+
                     exchange.sendResponseHeaders(200, prettyUser.getBytes().length);
                     OutputStream output = exchange.getResponseBody();
                     output.write(prettyUser.getBytes());
