@@ -10,7 +10,6 @@ import lombok.Setter;
  *
  * @author jnap
  */
-
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,5 +20,5 @@ public class User {
     private String id;
     private String username;
     private String password;
-    
+
 }
