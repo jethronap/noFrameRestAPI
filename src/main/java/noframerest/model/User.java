@@ -1,18 +1,25 @@
 package noframerest.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Value;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  *
  * @author jnap
  */
 
-@Value
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class User {
 
-    String id;
-    String username;
-    String password;
+    private String id;
+    private String username;
+    private String password;
+    
 }
