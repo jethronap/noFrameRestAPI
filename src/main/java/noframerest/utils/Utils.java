@@ -33,7 +33,7 @@ public class Utils {
 
     }
     
-    // method which UTF-8 decoding
+    // method which uses UTF-8 decoding
     private static String decode(final String encoded) {
         try {
             return encoded == null ? null : URLDecoder.decode(encoded, "UTF-8");
