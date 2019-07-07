@@ -1,5 +1,7 @@
 package noframerest.api;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -21,7 +23,7 @@ public class PostHandler implements HttpHandler {
 
     private final File json = new File("/Volumes/flobmusic/_archives/code/Java/JavaExamples/indie/noFrameRestAPI/user.json");
     // data binder for jackson:
-    private ObjectMapper mapper = new ObjectMapper();
+    private ObjectMapper mapper = new ObjectMapper().setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
 
     public void handle(HttpExchange exchange) throws IOException {
 
@@ -58,11 +60,13 @@ public class PostHandler implements HttpHandler {
         
         ArrayNode arrayNode = mapper.createArrayNode();
         ObjectNode objectNode = mapper.createObjectNode();
+       
         try {
-
-            objectNode.put("id", newUser.getId());
-            objectNode.put("username", newUser.getUsername());
-            objectNode.put("password", newUser.getPassword());
+            
+            
+            objectNode.put("id", "3");
+            objectNode.put("username", "maria");
+            objectNode.put("password", "olala");
             arrayNode.add(objectNode);
             mapper.writerWithDefaultPrettyPrinter().writeValue(json, arrayNode);
 
