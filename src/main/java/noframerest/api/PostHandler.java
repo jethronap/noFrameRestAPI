@@ -17,43 +17,45 @@ import noframerest.model.User;
  *
  * @author jnap
  */
-public class PostHandler implements HttpHandler{
+public class PostHandler implements HttpHandler {
 
-    public void handle(HttpExchange exchange) throws IOException  {
-        
-    try {
-                if ("POST".equals(exchange.getRequestMethod())) {
+    private final File json = new File("/Volumes/flobmusic/_archives/code/Java/JavaExamples/indie/noFrameRestAPI/user.json");
+    // data binder for jackson:
+    private ObjectMapper mapper = new ObjectMapper();
 
-                    String body = new BufferedReader(
-                            new InputStreamReader(exchange.getRequestBody()
-                            )
-                    ).lines().collect(Collectors.joining());
+    public void handle(HttpExchange exchange) throws IOException {
 
-                    exchange.getResponseHeaders().set(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON);
-                    exchange.sendResponseHeaders(200, 0);
+        try {
+            if ("POST".equals(exchange.getRequestMethod())) {
 
-                    OutputStream responseBody = exchange.getResponseBody();
-                    responseBody.write(addUser(body).getBytes("UTF-8"));
-                    responseBody.close();
+                String body = new BufferedReader(
+                        new InputStreamReader(exchange.getRequestBody()
+                        )
+                ).lines().collect(Collectors.joining());
 
-                    System.out.println("--------done");
-                } else {
-                    exchange.sendResponseHeaders(405, -1);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+                exchange.getResponseHeaders().set(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON);
+                exchange.sendResponseHeaders(200, 0);
+
+                OutputStream responseBody = exchange.getResponseBody();
+                responseBody.write(addUser(body).getBytes("UTF-8"));
+                responseBody.close();
+
+                System.out.println("--------done");
+            } else {
+                exchange.sendResponseHeaders(405, -1);
             }
-            exchange.close();
-        };
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        exchange.close();
+    };
 
     @SuppressWarnings("unchecked")
-    static String addUser(String requestBody) {
-        File json = new File("/Volumes/flobmusic/_archives/code/Java/JavaExamples/indie/noFrameRestAPI/user.json");
-        // data binder for jackson:
-        ObjectMapper mapper = new ObjectMapper();
-        //ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
+    private String addUser(String requestBody) {
+
         // created instance for new user:
         User newUser = new User();
+        
         ArrayNode nodes = mapper.createArrayNode();
         ObjectNode groupNode = mapper.createObjectNode();
         try {
@@ -70,4 +72,3 @@ public class PostHandler implements HttpHandler{
         return nodes.toString();
     }
 }
-
