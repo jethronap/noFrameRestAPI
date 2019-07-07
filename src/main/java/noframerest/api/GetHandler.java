@@ -14,12 +14,14 @@ import noframerest.model.User;
  */
 public class GetHandler implements HttpHandler {
 
+    private final File json = new File("/Volumes/flobmusic/_archives/code/Java/JavaExamples/indie/noFrameRestAPI/user.json");
+    
+    // data binder for jackson:
+    private ObjectMapper mapper = new ObjectMapper();
+
     public void handle(HttpExchange exchange) throws IOException {
 
         String requestMethod = exchange.getRequestMethod();
-        File json = new File("/Volumes/flobmusic/_archives/code/Java/JavaExamples/indie/noFrameRestAPI/user.json");
-        // data binder for jackson:
-        ObjectMapper mapper = new ObjectMapper();
 
         try {
             if ("GET".equals(requestMethod)) {
