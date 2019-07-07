@@ -56,19 +56,19 @@ public class PostHandler implements HttpHandler {
         // created instance for new user:
         User newUser = new User();
         
-        ArrayNode nodes = mapper.createArrayNode();
-        ObjectNode groupNode = mapper.createObjectNode();
+        ArrayNode arrayNode = mapper.createArrayNode();
+        ObjectNode objectNode = mapper.createObjectNode();
         try {
 
-            groupNode.put("id", newUser.getId());
-            groupNode.put("username", newUser.getUsername());
-            groupNode.put("password", newUser.getPassword());
-            nodes.add(groupNode);
-            mapper.writerWithDefaultPrettyPrinter().writeValue(json, nodes);
+            objectNode.put("id", newUser.getId());
+            objectNode.put("username", newUser.getUsername());
+            objectNode.put("password", newUser.getPassword());
+            arrayNode.add(objectNode);
+            mapper.writerWithDefaultPrettyPrinter().writeValue(json, arrayNode);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return nodes.toString();
+        return requestBody;//arrayNode.toString();
     }
 }

@@ -19,6 +19,6 @@ public class App {
         server.createContext("/users/add", new PostHandler());
         server.setExecutor(null); // creates a default executor
         server.start();
-        System.out.println("Server started on port" + serverPort);
+        System.out.println("Server started on port " + serverPort);
     }
 }
