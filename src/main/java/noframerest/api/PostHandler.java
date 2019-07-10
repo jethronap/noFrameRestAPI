@@ -2,8 +2,10 @@ package noframerest.api;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -50,29 +52,32 @@ public class PostHandler implements HttpHandler {
             e.printStackTrace();
         }
         exchange.close();
-    };
+    }
+
+    ;
 
     @SuppressWarnings("unchecked")
     private String addUser(String requestBody) {
 
-        // created instance for new user:
-        User newUser = new User();
-        
-        ArrayNode arrayNode = mapper.createArrayNode();
-        ObjectNode objectNode = mapper.createObjectNode();
-       
-        try {
-            
-            
-            objectNode.put("id", "3");
-            objectNode.put("username", "maria");
-            objectNode.put("password", "olala");
-            arrayNode.add(objectNode);
-            mapper.writerWithDefaultPrettyPrinter().writeValue(json, arrayNode);
 
+        ArrayNode arrayNode = JsonNodeFactory.instance.arrayNode();
+
+        try {
+
+            JsonNode objectNode = mapper.readTree(requestBody);
+            User toValue = mapper.treeToValue(objectNode, User.class);
+
+            ((ObjectNode) objectNode).put("id", toValue.getId());
+            ((ObjectNode) objectNode).put("username", toValue.getUsername());
+            ((ObjectNode) objectNode).put("password", toValue.getPassword());
+
+            arrayNode.addPOJO(toValue);//.add(objectNode);
+            //arrayNode.add(objectNode);
+            
+            mapper.writerWithDefaultPrettyPrinter().writeValue(json, arrayNode);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return requestBody;//arrayNode.toString();
+        return requestBody;
     }
 }
