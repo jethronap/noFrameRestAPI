@@ -59,19 +59,23 @@ public class PostHandler implements HttpHandler {
     @SuppressWarnings("unchecked")
     private String addUser(String requestBody) {
 
-
+        // an array node so that Jackson library can read the result:
         ArrayNode arrayNode = JsonNodeFactory.instance.arrayNode();
 
         try {
-
+            
+            /* object node that is created from the requestBody,
+               so that we can have access to its value parameters.
+            */ 
             JsonNode objectNode = mapper.readTree(requestBody);
-            User toValue = mapper.treeToValue(objectNode, User.class);
+            // convert the JsonNode to POJO:
+            User newUser = mapper.treeToValue(objectNode, User.class);
 
-            ((ObjectNode) objectNode).put("id", toValue.getId());
-            ((ObjectNode) objectNode).put("username", toValue.getUsername());
-            ((ObjectNode) objectNode).put("password", toValue.getPassword());
+            ((ObjectNode) objectNode).put("id", newUser.getId());
+            ((ObjectNode) objectNode).put("username", newUser.getUsername());
+            ((ObjectNode) objectNode).put("password", newUser.getPassword());
 
-            arrayNode.addPOJO(toValue);//.add(objectNode);
+            arrayNode.addPOJO(newUser);//.add(objectNode);
             //arrayNode.add(objectNode);
             
             mapper.writerWithDefaultPrettyPrinter().writeValue(json, arrayNode);
