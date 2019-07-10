@@ -3,5 +3,5 @@
 This is a maven project.<br>
 Building and running the project starts `localhost:8000`.<br>
 From there you can `GET` requests that come from a locally hosted `json` file.<br>
-You can also `POST` data in json format.
+You can also `POST` data in json format.<br>
 Clean & Build the Project and give it a go!
