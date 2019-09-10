@@ -29,10 +29,11 @@ import noframerest.model.User;
 public class PostHandler implements HttpHandler {
 
     private final File json = new File("/Volumes/flobmusic/_archives/code/Java/JavaExamples/indie/noFrameRestAPI/user.json");
-    
-    // data binder for jackson:
-    private ObjectMapper mapper = new ObjectMapper().setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
 
+    // data binder for jackson:
+    private final ObjectMapper mapper = new ObjectMapper().setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
+
+    @Override
     public void handle(HttpExchange exchange) throws IOException {
 
         try {
@@ -55,7 +56,6 @@ public class PostHandler implements HttpHandler {
                 exchange.sendResponseHeaders(405, -1);
             }
         } catch (IOException e) {
-            e.printStackTrace();
         }
         exchange.close();
     }
@@ -67,7 +67,7 @@ public class PostHandler implements HttpHandler {
 
         try {
             FileWriter output = new FileWriter(json);
-            
+
             /* object node that is created from the requestBody,
                so that we can have access to its value parameters.
              */
@@ -82,10 +82,9 @@ public class PostHandler implements HttpHandler {
             SequenceWriter seqWriter = mapper.configure(JsonGenerator.Feature.AUTO_CLOSE_JSON_CONTENT, false)
                     .writerWithDefaultPrettyPrinter().writeValuesAsArray(output);
             seqWriter.write(objectNode);
-            
+
             seqWriter.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (IOException | IllegalArgumentException e) {
         }
         return requestBody;
     }
