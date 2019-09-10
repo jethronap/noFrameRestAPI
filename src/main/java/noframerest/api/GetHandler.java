@@ -17,8 +17,9 @@ public class GetHandler implements HttpHandler {
     private final File json = new File("/Volumes/flobmusic/_archives/code/Java/JavaExamples/indie/noFrameRestAPI/user.json");
     
     // data binder for jackson:
-    private ObjectMapper mapper = new ObjectMapper();
+    private final ObjectMapper mapper = new ObjectMapper();
 
+    @Override
     public void handle(HttpExchange exchange) throws IOException {
 
         String requestMethod = exchange.getRequestMethod();
@@ -44,7 +45,6 @@ public class GetHandler implements HttpHandler {
                 exchange.sendResponseHeaders(405, -1); // HTTP Response Method not Allowed
             }
         } catch (IOException e) {
-            e.printStackTrace();
         }
         exchange.close();
 
